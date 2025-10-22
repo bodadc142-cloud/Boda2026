@@ -3,211 +3,161 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Diego & Cami — 14/02/2026</title>
+<title>Diego & Cami — Álbum Boda</title>
 
-<!-- Tipografías -->
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;600;800&display=swap" rel="stylesheet">
+<!-- Tipografía serif romántica + sans para UI -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
-  :root{
-    --verde-osc:#234122;
-    --verde-claro:#6b8b6b;
-    --beige:#e7dfc7;
-    --accent:#bfb58e;
-    --bg:#f6f4ec;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{
-    font-family: 'Montserrat', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background:var(--bg);
-    color:var(--verde-osc);
-    line-height:1.35;
-  }
-  .wrap{max-width:1200px;margin:24px auto;padding:0 18px;}
-  /* PORTADA */
-  #cover { display:flex; gap:28px; align-items:stretch; background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.9)); border-radius:10px; overflow:hidden; box-shadow:0 8px 30px rgba(5,10,8,0.08);}
-  .cover-left{flex:0 0 46%; padding:48px 40px; display:flex; flex-direction:column; justify-content:center;}
-  .date{font-size:0.95rem;color:var(--verde-claro);margin-bottom:10px}
-  h1{font-family:'Great Vibes', cursive; font-size:3.8rem; color:var(--verde-osc); margin-bottom:6px; line-height:0.95;}
-  .sub{font-family:'Great Vibes', cursive; font-size:1.25rem; color:var(--verde-claro); margin-bottom:18px;}
-  .cover-divider{width:60px;height:2px;background:var(--accent);margin:12px 0;border-radius:2px;opacity:.9}
-  .cover-actions{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
-  .btn{padding:10px 18px;border-radius:30px;border:none;font-weight:700;background:var(--beige); color:var(--verde-osc); cursor:pointer;box-shadow:0 6px 18px rgba(34,65,41,0.06);}
-  .btn.ghost{background:transparent;border:2px solid var(--beige);color:var(--verde-osc)}
-  .btn:hover{transform:translateY(-2px);transition:transform .18s ease}
-  .cover-right{flex:0 0 54%; display:flex;align-items:center;justify-content:center;padding:32px;}
-  .photo-frame{width:100%; max-width:420px; border:8px solid #fff; box-shadow:0 10px 40px rgba(12,18,12,0.12); border-radius:6px; overflow:hidden; background:#fff;}
-  .photo-frame img{display:block;width:100%;height:auto;object-fit:cover}
+:root{
+  --verde-osc:#234122;
+  --verde-claro:#6b8b6b;
+  --beige:#e7dfc7;
+  --accent:#bfb58e;
+  --bg:#f6f4ec;
+}
 
-  /* GALERÍA */
-  #gallery-container{display:none;padding:28px 0}
-  #controls{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
-  #controls .layout-btn, #controls .back-btn{padding:8px 14px;border-radius:8px;border:none;background:var(--beige);color:var(--verde-osc);font-weight:700;cursor:pointer;}
-  #controls .back-btn{background:transparent;border:2px solid var(--beige)}
-  #controls .layout-btn.active{box-shadow:0 6px 18px rgba(34,65,41,0.06);}
-  .gallery{width:100%}
-  .gallery.masonry{column-count:3;column-gap:14px}
-  @media(max-width:1000px){ .gallery.masonry{column-count:2} }
-  @media(max-width:600px){ .gallery.masonry{column-count:1} }
-  .gallery.masonry .item{display:inline-block;width:100%;margin:0 0 14px;border-radius:10px;overflow:hidden}
-  .gallery.minimal{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-  .gallery.dark{background:#0c0c0c;padding:20px;border-radius:8px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-  .gallery.fullscreen{display:flex;flex-wrap:wrap;gap:14px}
-  .item{position:relative;cursor:pointer;overflow:hidden;border-radius:8px}
-  .item img{width:100%;height:auto;display:block;transition:transform .35s ease,filter .35s ease}
-  .item:hover img{transform:scale(1.03)}
-  #lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(6,10,6,0.8);z-index:9999;padding:20px}
-  #lightbox img{max-width:calc(100% - 80px);max-height:calc(100% - 100px);border-radius:8px}
-  #lightbox .close{position:absolute;top:18px;right:18px;background:var(--beige);color:var(--verde-osc);border:none;padding:8px 12px;border-radius:8px;font-weight:800}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Montserrat', sans-serif;background:var(--bg);color:var(--verde-osc);line-height:1.35}
+
+.wrap{max-width:1200px;margin:24px auto;padding:0 18px}
+
+/* Botón subir */
+#uploadBtn{
+  padding:12px 20px;border-radius:30px;border:none;font-weight:700;
+  background:var(--beige); color:var(--verde-osc); cursor:pointer;
+  box-shadow:0 6px 18px rgba(34,65,41,0.06);
+  margin-bottom:20px;
+}
+
+/* Galería Rustic Chic */
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.item{position:relative;overflow:hidden;border-radius:8px;background:#fff;box-shadow:0 4px 12px rgba(34,65,41,0.08)}
+.item img, .item video{width:100%;height:auto;display:block;object-fit:cover;cursor:pointer}
+.item video{max-height:250px}
+
+/* Lightbox fullscreen */
+#lightbox{
+  position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+  background:rgba(6,10,6,0.85);z-index:9999;padding:20px;flex-direction:column;
+}
+#lightbox img,#lightbox video{max-width:calc(100% - 80px);max-height:calc(100% - 120px);border-radius:8px}
+#lb-close{position:absolute;top:18px;right:18px;background:var(--beige);color:var(--verde-osc);
+border:none;padding:8px 12px;border-radius:8px;font-weight:800;cursor:pointer}
+#lb-credit{margin-top:12px;color:#eee;font-size:0.95rem;font-style:italic}
+
 </style>
 </head>
 <body>
 
 <div class="wrap">
-
-  <!-- PORTADA -->
-  <section id="cover">
-    <div class="cover-left">
-      <div style="width:100%;max-width:360px;">
-        <div class="date muted">14.02.2026</div>
-        <h1>Diego &amp; Cami</h1>
-        <div class="sub">Nuestra mejor historia comienza hoy</div>
-        <div class="cover-divider"></div>
-        <div class="cover-actions">
-          <button id="view-gallery" class="btn">Ver Galería</button>
-          <button id="upload-photos" class="btn ghost">Subir Fotos</button>
-        </div>
-      </div>
-    </div>
-    <div class="cover-right">
-      <div class="photo-frame">
-        <img id="cover-photo" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=900&q=70" alt="Diego y Cami">
-      </div>
-    </div>
-  </section>
-
-  <!-- GALERÍA -->
-  <section id="gallery-container">
-    <div id="controls">
-      <button class="back-btn" id="back-to-cover">← Atrás</button>
-      <div style="flex:1"></div>
-      <button class="layout-btn" data-layout="masonry">Pinterest Vibes</button>
-      <button class="layout-btn" data-layout="minimal">Minimal Elegante</button>
-      <button class="layout-btn" data-layout="dark">Dark Moderno</button>
-      <button class="layout-btn" data-layout="fullscreen">Fullscreen Classy</button>
-    </div>
-    <div id="gallery" class="gallery masonry" aria-live="polite"></div>
-  </section>
-
+  <h2 style="font-family:'Playfair Display', serif;margin-bottom:16px;text-align:center">Álbum de la Boda</h2>
+  <button id="uploadBtn">Subir fotos</button>
+  <input id="fileInput" type="file" accept="image/*,video/*" multiple hidden>
+  
+  <div id="gallery" class="gallery"></div>
 </div>
 
-<div id="lightbox">
-  <button class="close" id="lb-close">Cerrar ✕</button>
-  <img id="lb-img" src="" alt="Foto grande">
+<!-- Lightbox -->
+<div id="lightbox" role="dialog" aria-hidden="true">
+  <button id="lb-close">Cerrar ✕</button>
+  <div id="lb-content"></div>
+  <div id="lb-credit"></div>
 </div>
-
-<!-- Cloudinary Widget -->
-<script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
 
 <script>
-const cloudName = 'de3zy3vvo';
-const uploadPreset = 'unsigned_preset';
+// === Configuración Cloudinary ===
+const cloudName = "de3zy3vvo";
+const uploadPreset = "unsigned_preset";
+const maxWidth = 2048; // R2
 
-const gallery = document.getElementById('gallery');
-const galleryContainer = document.getElementById('gallery-container');
-const cover = document.getElementById('cover');
-const viewBtn = document.getElementById('view-gallery');
-const backBtn = document.getElementById('back-to-cover');
-const lightbox = document.getElementById('lightbox');
-const lbImg = document.getElementById('lb-img');
-const lbClose = document.getElementById('lb-close');
+// === Subida de archivos ===
+const uploadBtn = document.getElementById("uploadBtn");
+const fileInput = document.getElementById("fileInput");
 
-let images = [];
+uploadBtn.addEventListener("click", () => fileInput.click());
 
-// Crear Cloudinary Upload Widget
-const myWidget = cloudinary.createUploadWidget({
-  cloudName: cloudName,
-  uploadPreset: uploadPreset,
-  multiple: true,
-  maxFiles: 50,
-  maxFileSize: 10485760, // 10 MB
-  sources: ["local","camera","dropbox","url","instagram","facebook"],
-  folder: "boda2026",
-  clientAllowedFormats: ["jpg","png","jpeg"],
-  cropping: false
-}, (error, result) => {
-  if (!error && result && result.event === "success") {
-    images.push(result.info.secure_url + "?w=2048&c_limit&f_auto&q_auto");
-    buildGallery();
+fileInput.addEventListener("change", async (event) => {
+  const files = event.target.files;
+  if(!files.length) return;
+
+  const uploaderName = prompt("¿Quién sos?") || "Anónimo";
+
+  for(let file of files){
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", uploadPreset);
+    formData.append("context", `uploader=${uploaderName}`);
+    formData.append("transformation", `c_limit,w_${maxWidth}`);
+
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+      method:"POST",
+      body: formData
+    });
+
+    const data = await res.json();
+    console.log("Subida:", data.secure_url);
+
+    // Agregar a galería inmediatamente
+    addToGallery(data);
   }
+  fileInput.value = "";
 });
 
-// Botón subir fotos
-document.getElementById("upload-photos").addEventListener("click", () => {
-  myWidget.open();
-});
+// === Galería ===
+const gallery = document.getElementById("gallery");
 
-// Construir galería
-function buildGallery(){
-  gallery.innerHTML = '';
-  images.forEach((src,i)=>{
-    const div = document.createElement('div');
-    div.className='item';
-    div.innerHTML=`<img src="${src}" alt="Foto ${i+1}" data-index="${i}">`;
-    div.addEventListener('click',()=>openLightbox(i));
-    gallery.appendChild(div);
-  });
+async function loadGallery(){
+  const res = await fetch(`https://res.cloudinary.com/${cloudName}/image/list/all.json`);
+  const data = await res.json();
+  // Orden: nuevas primero
+  const sorted = data.resources.sort((a,b)=> new Date(b.created_at) - new Date(a.created_at));
+  sorted.forEach(r => addToGallery(r));
 }
 
-// Abrir / cerrar portada y galería
-viewBtn.addEventListener('click', () => {
-  cover.style.display='none';
-  galleryContainer.style.display='block';
-  window.scrollTo({top:0,behavior:'smooth'});
-});
-backBtn.addEventListener('click', () => {
-  galleryContainer.style.display='none';
-  cover.style.display='flex';
-  window.scrollTo({top:0,behavior:'smooth'});
-});
+function addToGallery(resource){
+  const div = document.createElement("div");
+  div.className = "item";
+  
+  if(resource.resource_type==="video" || resource.format==="mp4"){
+    div.innerHTML = `<video src="${resource.secure_url}" controls></video>`;
+  } else {
+    div.innerHTML = `<img src="${resource.secure_url}" alt="Foto de la boda">`;
+  }
 
-// Lightbox
-let currentIdx = 0;
-function openLightbox(i){
-  currentIdx = i;
-  lbImg.src = images[i] || '';
-  lightbox.style.display = 'flex';
+  div.addEventListener("click", ()=>openLightbox(resource));
+  gallery.appendChild(div);
 }
-function closeLightbox(){
-  lightbox.style.display='none';
-  lbImg.src='';
-}
-lbClose.addEventListener('click',closeLightbox);
-lightbox.addEventListener('click', (e)=>{if(e.target===lightbox) closeLightbox();});
-document.addEventListener('keydown',(e)=>{
-  if(lightbox.style.display!=='flex') return;
-  if(e.key==='Escape') closeLightbox();
-  if(e.key==='ArrowRight'){currentIdx=(currentIdx+1)%images.length; lbImg.src=images[currentIdx];}
-  if(e.key==='ArrowLeft'){currentIdx=(currentIdx-1+images.length)%images.length; lbImg.src=images[currentIdx];}
-});
 
-// Layout buttons
-const layoutBtns = document.querySelectorAll('.layout-btn');
-layoutBtns.forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    layoutBtns.forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    const mode = btn.dataset.layout;
-    gallery.className='gallery '+mode;
-    if(mode==='fullscreen'){
-      document.querySelectorAll('.gallery.fullscreen .item').forEach(it=>it.style.flex='1 1 48%');
-    } else {
-      document.querySelectorAll('.gallery .item').forEach(it=>it.style.flex='');
-    }
-  });
-});
-document.querySelector('.layout-btn[data-layout="masonry"]').classList.add('active');
+// === Lightbox ===
+const lightbox = document.getElementById("lightbox");
+const lbClose = document.getElementById("lb-close");
+const lbContent = document.getElementById("lb-content");
+const lbCredit = document.getElementById("lb-credit");
+
+function openLightbox(resource){
+  lbContent.innerHTML = "";
+  if(resource.resource_type==="video" || resource.format==="mp4"){
+    const v = document.createElement("video");
+    v.src = resource.secure_url;
+    v.controls = true;
+    v.autoplay = true;
+    lbContent.appendChild(v);
+  } else {
+    const img = document.createElement("img");
+    img.src = resource.secure_url;
+    lbContent.appendChild(img);
+  }
+  lbCredit.textContent = resource.context?.custom?.uploader ? `Subido por: ${resource.context.custom.uploader}` : "";
+  lightbox.style.display = "flex";
+}
+
+lbClose.addEventListener("click", ()=>lightbox.style.display="none");
+lightbox.addEventListener("click", e => {if(e.target===lightbox) lightbox.style.display="none";});
+
+// === Inicializar galería al cargar ===
+loadGallery();
+
 </script>
 
 </body>
