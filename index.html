@@ -35,6 +35,7 @@ body{
   text-align:center;
   gap:20px;
   min-height:80vh;
+  padding:20px;
 }
 
 #cover h1{
@@ -63,6 +64,7 @@ body{
   display:flex;
   gap:12px;
   flex-wrap:wrap;
+  justify-content:center;
 }
 .btn{
   padding:10px 18px;
@@ -98,9 +100,35 @@ body{
 #lightbox img{max-width:calc(100% - 60px);max-height:calc(100% - 80px);border-radius:6px}
 #lightbox .close{position:absolute;top:16px;right:16px;background:#fff;color:var(--verde-osc);border:none;padding:6px 10px;border-radius:6px;font-weight:700;cursor:pointer}
 
+/* RESPONSIVE PORTADA MINIMALISTA */
+@media(max-width:768px){
+  #cover {
+    gap:16px;
+  }
+  #cover h1 {
+    font-size:3rem;
+  }
+  #cover .sub {
+    font-size:1.2rem;
+  }
+  #cover img {
+    max-width:100%;
+  }
+  .cover-actions {
+    flex-direction:column;
+    gap:10px;
+  }
+}
 @media(max-width:480px){
-  #cover h1{font-size:3rem}
-  #cover .sub{font-size:1.2rem}
+  #cover h1 {
+    font-size:2.4rem;
+  }
+  #cover .sub {
+    font-size:1rem;
+  }
+  #cover img {
+    max-width:100%;
+  }
 }
 </style>
 </head>
