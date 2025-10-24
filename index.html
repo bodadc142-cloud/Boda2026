@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Diego & Cami — 14/02/2026</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --verde-osc:#234122;
+  --verde-claro:#6b8b6b;
+  --bg:#f6f4ec;
+  --beige:#e7dfc7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family: 'Montserrat', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:var(--bg);
+  color:var(--verde-osc);
+  line-height:1.35;
+}
+
+/* CONTENEDOR */
+.wrap{max-width:1200px;margin:24px auto;padding:0 18px;}
+
+/* PORTADA MINIMALISTA */
+#cover{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:20px;
+  min-height:80vh;
+}
+
+#cover h1{
+  font-family:'Great Vibes', cursive;
+  font-size:4rem;
+  line-height:1;
+  color:var(--verde-osc);
+}
+
+#cover .sub{
+  font-family:'Great Vibes', cursive;
+  font-size:1.5rem;
+  color:var(--verde-claro);
+}
+
+#cover img{
+  width:100%;
+  max-width:500px;
+  height:auto;
+  border-radius:8px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.1);
+}
+
+/* BOTONES MINIMALISTAS */
+.cover-actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.btn{
+  padding:10px 18px;
+  border-radius:30px;
+  border:none;
+  font-weight:600;
+  background:var(--beige);
+  color:var(--verde-osc);
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+  transition:transform .18s ease;
+}
+.btn.ghost{
+  background:transparent;
+  border:2px solid var(--beige);
+}
+.btn:hover{transform:translateY(-2px)}
+
+/* GALERÍA */
+#gallery-container{display:none;padding:28px 0}
+#controls{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+#controls .layout-btn, #controls .back-btn{padding:8px 14px;border-radius:6px;border:none;background:#eee;color:var(--verde-osc);font-weight:600;cursor:pointer;}
+#controls .back-btn{background:transparent;border:1px solid #ccc}
+#controls .layout-btn.active{box-shadow:0 4px 12px rgba(0,0,0,0.08);}
+.gallery{width:100%}
+.gallery.masonry{column-count:3;column-gap:12px}
+@media(max-width:1000px){ .gallery.masonry{column-count:2} }
+@media(max-width:600px){ .gallery.masonry{column-count:1} }
+.gallery.masonry .item{display:inline-block;width:100%;margin:0 0 12px;border-radius:6px;overflow:hidden}
+.item img{width:100%;height:auto;display:block;transition:transform .3s ease}
+.item:hover img{transform:scale(1.02)}
+#lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);z-index:9999;padding:20px}
+#lightbox img{max-width:calc(100% - 60px);max-height:calc(100% - 80px);border-radius:6px}
+#lightbox .close{position:absolute;top:16px;right:16px;background:#fff;color:var(--verde-osc);border:none;padding:6px 10px;border-radius:6px;font-weight:700;cursor:pointer}
+
+@media(max-width:480px){
+  #cover h1{font-size:3rem}
+  #cover .sub{font-size:1.2rem}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- PORTADA MINIMALISTA -->
+  <section id="cover" aria-label="Portada">
+    <h1>Diego &amp; Cami</h1>
+    <div class="sub">Nuestra mejor historia comienza hoy</div>
+    <img id="cover-photo" src="PortadaGaleria.jpg" alt="Diego y Cami">
+
+    <div class="cover-actions">
+      <button id="view-gallery" class="btn">Ver Galería</button>
+      <button id="upload-photos" class="btn ghost">Subir Fotos</button>
+    </div>
+  </section>
+
+  <!-- GALERÍA -->
+  <section id="gallery-container" aria-label="Galería de fotos">
+    <div id="controls">
+      <button class="back-btn" id="back-to-cover">← Atrás</button>
+      <div style="flex:1"></div>
+      <button class="layout-btn" data-layout="masonry">Pinterest Vibes</button>
+      <button class="layout-btn" data-layout="minimal">Minimal Elegante</button>
+      <button class="layout-btn" data-layout="dark">Dark Moderno</button>
+      <button class="layout-btn" data-layout="fullscreen">Fullscreen Classy</button>
+    </div>
+    <div id="gallery" class="gallery masonry" aria-live="polite"></div>
+  </section>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" role="dialog" aria-hidden="true">
+  <button class="close" id="lb-close">Cerrar ✕</button>
+  <img id="lb-img" src="" alt="Foto grande">
+</div>
+
+<script>
+const gallery = document.getElementById('gallery');
+const galleryContainer = document.getElementById('gallery-container');
+const cover = document.getElementById('cover');
+const viewBtn = document.getElementById('view-gallery');
+const backBtn = document.getElementById('back-to-cover');
+const layoutBtns = document.querySelectorAll('.layout-btn');
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lb-img');
+const lbClose = document.getElementById('lb-close');
+const uploadBtn = document.getElementById('upload-photos');
+
+/* === FUNCIONES LIGHTBOX === */
+let currentIdx = 0;
+function openLightbox(i){
+  currentIdx = i;
+  lbImg.src = images[i].url;
+  lightbox.style.display = 'flex';
+  lightbox.setAttribute('aria-hidden','false');
+}
+function closeLightbox(){
+  lightbox.style.display = 'none';
+  lightbox.setAttribute('aria-hidden','true');
+  lbImg.src = '';
+}
+lbClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', (e)=>{if(e.target===lightbox) closeLightbox();});
+document.addEventListener('keydown', (e)=>{
+  if(lightbox.style.display!=='flex') return;
+  if(e.key==='Escape') closeLightbox();
+  if(e.key==='ArrowRight'){currentIdx=(currentIdx+1)%images.length; lbImg.src=images[currentIdx].url;}
+  if(e.key==='ArrowLeft'){currentIdx=(currentIdx-1+images.length)%images.length; lbImg.src=images[currentIdx].url;}
+});
+
+/* === Mostrar portada/galería === */
+viewBtn.addEventListener('click', ()=>{
+  cover.style.display='none';
+  galleryContainer.style.display='block';
+  loadGallery();
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+backBtn.addEventListener('click', ()=>{
+  galleryContainer.style.display='none';
+  cover.style.display='flex';
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+/* === Layouts === */
+layoutBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    layoutBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const mode = btn.dataset.layout;
+    gallery.className='gallery '+mode;
+  });
+});
+document.querySelector('.layout-btn[data-layout="masonry"]').classList.add('active');
+
+/* === FETCH GALERÍA DESDE RENDER === */
+let images = [];
+async function loadGallery(){
+  try{
+    const res = await fetch('https://boda2026.onrender.com/gallery');
+    images = await res.json();
+    gallery.innerHTML='';
+    images.forEach((img,i)=>{
+      const div = document.createElement('div');
+      div.className='item';
+      div.innerHTML=`<img src="${img.url}" alt="${img.uploader||'Foto'}" data-index="${i}" loading="lazy">`;
+      div.addEventListener('click', ()=>openLightbox(i));
+      gallery.appendChild(div);
+    });
+  }catch(err){console.error(err);}
+}
+
+/* === SUBIR FOTOS DIRECTO DESDE DISPOSITIVO === */
+const photoInput = document.createElement('input');
+photoInput.type = 'file';
+photoInput.accept = 'image/*';
+photoInput.multiple = true;
+photoInput.style.display = 'none';
+document.body.appendChild(photoInput);
+
+uploadBtn.addEventListener('click', ()=>photoInput.click());
+
+photoInput.addEventListener('change', async (e)=>{
+  const files = e.target.files;
+  if(!files.length) return;
+
+  for(let file of files){
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', "unsigned_preset");
+    formData.append('folder','boda2026');
+
+    try{
+      const res = await fetch("https://api.cloudinary.com/v1_1/de3zy3vvo/image/upload",{method:'POST',body:formData});
+      const data = await res.json();
+      console.log('Foto subida:', data.secure_url);
+    }catch(err){console.error('Error al subir', err);}
+  }
+
+  await loadGallery();
+  e.target.value = '';
+});
+
+// Inicializar galería
+loadGallery();
+</script>
+
+</body>
+</html>
