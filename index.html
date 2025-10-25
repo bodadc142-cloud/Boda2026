@@ -106,6 +106,7 @@ h1{font-family:'Great Vibes',cursive;font-size:3.8rem;margin:6px 0 0 0;line-heig
 </div>
 
 <script>
+
 const gallery = document.getElementById('gallery');
 const galleryContainer = document.getElementById('gallery-container');
 const cover = document.getElementById('cover');
@@ -120,6 +121,7 @@ const lbClose = document.getElementById('lb-close');
 const nameModal = document.getElementById('name-modal');
 const nameInput = document.getElementById('uploader-name');
 const nameSubmit = document.getElementById('name-submit');
+const thanksModal = document.getElementById('thanks-modal');
 
 let images = [];
 let currentIdx = 0;
@@ -235,7 +237,7 @@ nameSubmit.addEventListener('click', async ()=>{
   progress.textContent='Carga completada';
     // Mostrar modal de agradecimiento estilizado
     setTimeout(()=>{
-      document.getElementById('thanks-modal').style.display='flex';
+      thanksModal.style.display='flex';
     }, 100);
   loadGallery();
 });
