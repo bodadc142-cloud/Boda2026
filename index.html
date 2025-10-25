@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Diego & Cami — 14/02/2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde-osc:#234122;
+  --bg:#f6f4ec;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Montserrat',system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+  background:var(--bg);
+  color:var(--verde-osc);
+  line-height:1.35;
+}
+.wrap{max-width:1200px;margin:24px auto;padding:0 18px;}
+#cover{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center;}
+#cover h1{font-family:'Great Vibes',cursive;font-size:3.2rem;margin-bottom:8px;}
+#cover .sub{font-family:'Great Vibes',cursive;font-size:1.25rem;margin-bottom:18px;}
+.cover-photo{width:100%;max-width:420px;border-radius:6px;overflow:hidden;margin-bottom:18px;}
+.cover-photo img{width:100%;display:block;border-radius:6px;}
+.btn{padding:10px 18px;border-radius:30px;border:none;font-weight:700;background:#234122;color:#fff;cursor:pointer;margin:6px;}
+#gallery-container{display:none;padding:28px 0}
+.gallery{width:100%;column-count:3;column-gap:14px}
+@media(max-width:1000px){.gallery{column-count:2}}
+@media(max-width:600px){.gallery{column-count:1}}
+.item{display:inline-block;width:100%;margin-bottom:14px;border-radius:10px;overflow:hidden;position:relative;}
+.item img{width:100%;display:block;transition:transform .35s ease}
+.item:hover img{transform:scale(1.03);}
+.caption{position:absolute;bottom:6px;left:6px;background:rgba(255,255,255,0.7);padding:4px 6px;font-size:0.85rem;border-radius:4px;}
+#lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(6,10,6,0.8);z-index:9999;padding:20px}
+#lightbox img{max-width:calc(100% - 80px);max-height:calc(100% - 100px);border-radius:8px}
+#lightbox .close{position:absolute;top:18px;right:18px;background:#fff;color:#234122;border:none;padding:8px 12px;border-radius:8px;font-weight:800}
+.progress-bar{margin:6px 0;padding:4px 6px;background:#e0e0e0;border-radius:4px;font-size:0.85rem;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- PORTADA -->
+  <section id="cover">
+    <div class="cover-photo">
+      <img src="PortadaGaleria.jpg" alt="Diego y Cami">
+    </div>
+    <h1>Diego & Cami</h1>
+    <div class="sub">Nuestra mejor historia comienza hoy</div>
+    <div>
+      <button id="view-gallery" class="btn">Ver Galería</button>
+      <button id="upload-photos" class="btn">Subir Fotos</button>
+    </div>
+    <input type="file" id="photoInput" multiple style="display:none">
+    <div id="progressContainer"></div>
+  </section>
+
+  <!-- GALERÍA -->
+  <section id="gallery-container">
+    <button id="back-to-cover" class="btn">← Atrás</button>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button class="close" id="lb-close">Cerrar ✕</button>
+  <img id="lb-img" src="" alt="Foto grande">
+</div>
+
+<script>
+const galleryContainer = document.getElementById('gallery-container');
+const cover = document.getElementById('cover');
+const viewBtn = document.getElementById('view-gallery');
+const backBtn = document.getElementById('back-to-cover');
+const gallery = document.getElementById('gallery');
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lb-img');
+const lbClose = document.getElementById('lb-close');
+
+let images = [];
+let currentIdx = 0;
+
+function loadGallery(){
+  fetch('https://boda2026.onrender.com/gallery')
+    .then(r=>r.json())
+    .then(data=>{
+      images=data;
+      gallery.innerHTML='';
+      data.forEach((img,i)=>{
+        const div=document.createElement('div');
+        div.className='item';
+        div.innerHTML=`<img src="${img.url}" data-index="${i}" alt="Foto"><div class="caption">Subida por: ${img.uploader}</div>`;
+        div.querySelector('img').addEventListener('click', ()=>openLightbox(i));
+        gallery.appendChild(div);
+      });
+    })
+    .catch(console.error);
+}
+
+function openLightbox(i){
+  currentIdx=i;
+  lbImg.src=images[i].url;
+  lightbox.style.display='flex';
+}
+function closeLightbox(){
+  lightbox.style.display='none';
+  lbImg.src='';
+}
+lbClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e=>{if(e.target===lightbox) closeLightbox();});
+
+viewBtn.addEventListener('click', ()=>{
+  cover.style.display='none';
+  galleryContainer.style.display='block';
+  loadGallery();
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+backBtn.addEventListener('click', ()=>{
+  galleryContainer.style.display='none';
+  cover.style.display='flex';
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+// SUBIR FOTOS
+const photoInput = document.getElementById('photoInput');
+const progressContainer = document.getElementById('progressContainer');
+
+document.getElementById('upload-photos').addEventListener('click', ()=>photoInput.click());
+
+photoInput.addEventListener('change',(e)=>{
+  const files=e.target.files;
+  if(!files.length) return;
+  for(let file of files){
+    const progressBar=document.createElement('div');
+    progressBar.className='progress-bar';
+    progressBar.textContent=`Subiendo ${file.name} 0%`;
+    progressContainer.appendChild(progressBar);
+
+    const formData=new FormData();
+    formData.append('file',file);
+    formData.append('upload_preset','unsigned_preset'); // tu preset unsigned
+    formData.append('folder','boda2026');
+    formData.append('context','uploader=Invitado');
+
+    const xhr=new XMLHttpRequest();
+    xhr.upload.addEventListener('progress',(ev)=>{
+      if(ev.lengthComputable){
+        const pct=Math.round((ev.loaded/ev.total)*100);
+        progressBar.textContent=`Subiendo ${file.name} ${pct}%`;
+      }
+    });
+
+    xhr.onreadystatechange=async()=>{
+      if(xhr.readyState===4){
+        if(xhr.status===200){
+          progressBar.textContent=`Subida completa: ${file.name}`;
+          const data=JSON.parse(xhr.responseText);
+
+          await fetch('https://boda2026.onrender.com/add-photo',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({url:data.secure_url,uploader:"Invitado"})
+          });
+
+          loadGallery();
+          setTimeout(()=>progressBar.remove(),2000);
+        }else{
+          progressBar.textContent=`Error subiendo ${file.name}`;
+          setTimeout(()=>progressBar.remove(),2000);
+        }
+      }
+    };
+
+    xhr.open('POST','https://api.cloudinary.com/v1_1/de3zy3vvo/image/upload');
+    xhr.send(formData);
+  }
+  e.target.value='';
+});
+</script>
+</body>
+</html>
