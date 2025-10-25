@@ -1,4 +1,14 @@
+const express = require("express");
+const cors = require("cors");
+const cloudinary = require("cloudinary").v2;
 const { MongoClient } = require('mongodb');
+const fs = require('fs');
+const path = require('path');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
 const mongoUri = 'mongodb+srv://bodadc142_db_user:Kkr9WHqE2tpn9yq7@cluster0.hh4eo6t.mongodb.net/?retryWrites=true&w=majority';
 const dbName = 'boda2026';
 const collectionName = 'gallery';
@@ -11,8 +21,7 @@ async function getDb() {
   }
   return dbClient.db(dbName);
 }
-const fs = require('fs');
-const path = require('path');
+
 // Endpoint para subir imagen y guardar uploader
 app.post('/upload', async (req, res) => {
   try {
@@ -34,13 +43,6 @@ app.post('/upload', async (req, res) => {
     res.status(500).json({ error: 'No se pudo subir la imagen' });
   }
 });
-const express = require("express");
-const cors = require("cors");
-const cloudinary = require("cloudinary").v2;
-
-const app = express();
-app.use(cors());
-app.use(express.json());
 
 // Configuración Cloudinary
 cloudinary.config({
