@@ -11,7 +11,7 @@
 :root{
 body {
   min-height: 100vh;
-  background: linear-gradient(120deg, #e7dfc7 0%, #bfb58e 100%);
+  background: url('https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80') center center / cover no-repeat fixed;
   position: relative;
   overflow-x: hidden;
 }
@@ -22,7 +22,7 @@ body {
   top: 0; left: 0; width: 100vw; height: 100vh;
   z-index: 0;
   pointer-events: none;
-  background: transparent;
+  background: url('https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80') center center / cover no-repeat fixed;
 }
   --verde-osc:#234122;
   --verde-claro:#6b8b6b;
@@ -196,8 +196,50 @@ h1{font-family:'Great Vibes',cursive;font-size:3.8rem;margin:6px 0 0 0;line-heig
 </head>
 <body>
 
-<div class="animated-bg">
+<div class="wrap">
   <div class="parallax-bg"></div>
+  <!-- MODAL AGRADECIMIENTO -->
+  <div id="thanks-modal">
+    <div class="modal-content">
+      <div class="thanks-title">¡Gracias por compartir!</div>
+      <div class="thanks-msg">Tus fotos han sido subidas con éxito.<br>¡Gracias por ser parte de este recuerdo!</div>
+      <button class="close-btn" onclick="document.getElementById('thanks-modal').style.display='none'">Cerrar</button>
+    </div>
+  </div>
+  
+  <!-- PORTADA -->
+  <section id="cover">
+    <img src="PortadaGaleria.jpg" alt="Diego y Cami">
+    <h1>Diego & Cami</h1>
+    <div class="sub">Nuestra mejor historia comienza hoy</div>
+    <div id="cover-actions">
+      <button id="view-gallery" class="btn">Ver Galería</button>
+      <button id="upload-photos" class="btn">Subir Fotos</button>
+    </div>
+    <div id="progress"></div>
+  </section>
+  
+  <!-- GALERÍA -->
+  <section id="gallery-container">
+    <button id="back-to-cover">← Atrás</button>
+    <div id="gallery"></div>
+  </section>
+  
+</div>
+.btn, button {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  transition: box-shadow 0.2s, transform 0.15s, background 0.2s;
+}
+.btn:hover, button:hover {
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  background: var(--accent);
+  transform: translateY(-2px) scale(1.04);
+}
+.btn:active, button:active {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  background: var(--verde-claro);
+  transform: scale(0.98);
+}
 <div class="wrap">
 <!-- MODAL AGRADECIMIENTO -->
 <div id="thanks-modal">
@@ -245,11 +287,16 @@ h1{font-family:'Great Vibes',cursive;font-size:3.8rem;margin:6px 0 0 0;line-heig
 </div>
 
 <script>
-// Parallax scroll efecto
+// Parallax scroll efecto ajustado al tamaño de la galería
 window.addEventListener('scroll', function() {
   const bg = document.querySelector('.parallax-bg');
-  if(bg) {
-    const offset = window.pageYOffset * 0.4;
+  const gallery = document.getElementById('gallery');
+  if(bg && gallery) {
+    const galleryHeight = gallery.offsetHeight;
+    const scrollMax = document.body.scrollHeight - window.innerHeight;
+    const scrollRatio = scrollMax > 0 ? window.pageYOffset / scrollMax : 0;
+    const maxOffset = Math.max(galleryHeight * 0.25, 120); // máximo movimiento
+    const offset = scrollRatio * maxOffset;
     bg.style.transform = `translateY(${offset}px)`;
   }
 });
