@@ -269,13 +269,10 @@ h1{font-family:'Great Vibes',cursive;font-size:3.8rem;margin:6px 0 0 0;line-heig
 // Parallax scroll efecto ajustado al tamaño de la galería
 window.addEventListener('scroll', function() {
   const bg = document.querySelector('.parallax-bg');
-  const gallery = document.getElementById('gallery');
-  if(bg && gallery) {
-    const galleryHeight = gallery.offsetHeight;
-    const scrollMax = document.body.scrollHeight - window.innerHeight;
-    const scrollRatio = scrollMax > 0 ? window.pageYOffset / scrollMax : 0;
-    const maxOffset = Math.max(galleryHeight * 0.25, 120); // máximo movimiento
-    const offset = scrollRatio * maxOffset;
+  if(bg) {
+    // Parallax más suave y en sentido correcto
+    const factor = 0.3; // velocidad más lenta
+    const offset = -window.pageYOffset * factor;
     bg.style.transform = `translateY(${offset}px)`;
   }
 });
