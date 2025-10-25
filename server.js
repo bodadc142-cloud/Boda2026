@@ -1,3 +1,39 @@
+const { MongoClient } = require('mongodb');
+const mongoUri = 'mongodb+srv://bodadc142_db_user:Kkr9WHqE2tpn9yq7@cluster0.hh4eo6t.mongodb.net/?retryWrites=true&w=majority';
+const dbName = 'boda2026';
+const collectionName = 'gallery';
+let dbClient;
+
+async function getDb() {
+  if (!dbClient) {
+    dbClient = new MongoClient(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+    await dbClient.connect();
+  }
+  return dbClient.db(dbName);
+}
+const fs = require('fs');
+const path = require('path');
+// Endpoint para subir imagen y guardar uploader
+app.post('/upload', async (req, res) => {
+  try {
+    const { uploader, image } = req.body;
+    if (!uploader || !image) return res.status(400).json({ error: 'Faltan datos' });
+
+    // Subir imagen a Cloudinary
+    const uploadRes = await cloudinary.uploader.upload(image, {
+      folder: 'boda2026',
+    });
+
+    // Guardar en MongoDB
+    const db = await getDb();
+    await db.collection(collectionName).insertOne({ url: uploadRes.secure_url, uploader });
+
+    res.json({ url: uploadRes.secure_url });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'No se pudo subir la imagen' });
+  }
+});
 const express = require("express");
 const cors = require("cors");
 const cloudinary = require("cloudinary").v2;
@@ -16,21 +52,9 @@ cloudinary.config({
 // Endpoint para listar imágenes del folder "boda2026"
 app.get("/gallery", async (req, res) => {
   try {
-    const resources = await cloudinary.api.resources({
-      type: "upload",
-      prefix: "boda2026/", // coincide con el folder en la subida
-      max_results: 500,
-      context: true,       // importante para obtener el uploader
-      direction: "desc"
-    });
-
-    const images = resources.resources.map(r => ({
-      url: r.secure_url,
-      type: r.resource_type,
-      uploader: r.context && r.context.uploader ? r.context.uploader.custom : "Anónimo"
-    }));
-
-    res.json(images);
+    const db = await getDb();
+    const gallery = await db.collection(collectionName).find({}).toArray();
+    res.json(gallery);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "No se pudieron obtener las imágenes" });
