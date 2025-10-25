@@ -307,12 +307,7 @@ async function loadGallery(){
     images.forEach((img,i)=>{
       const div = document.createElement('div');
       div.className = 'item';
-      div.innerHTML = `
-        <img src="${img.url}" alt="${img.uploader||'Foto'}" data-index="${i}">
-        <div class="ig-overlay">
-          <span>${img.uploader ? img.uploader : ''}</span>
-        </div>
-      `;
+      div.innerHTML = `<img src="${img.url}" alt="Foto" data-index="${i}">`;
       div.addEventListener('click',()=>openLightbox(i));
       gallery.appendChild(div);
     });
