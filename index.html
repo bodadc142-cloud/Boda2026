@@ -15,9 +15,19 @@
   --accent: #bfb58e;
   --bg: #f6f4ec;
 }
+.parallax-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  background: url('fondo.jpg') center center / cover no-repeat fixed;
+  will-change: transform;
+}
 body {
   min-height: 100vh;
-  background: url('fondo.jpg') center center / cover no-repeat fixed;
+  background: var(--bg);
   position: relative;
   overflow-x: hidden;
 }
