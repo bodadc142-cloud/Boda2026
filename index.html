@@ -270,9 +270,11 @@ h1{font-family:'Great Vibes',cursive;font-size:3.8rem;margin:6px 0 0 0;line-heig
 window.addEventListener('scroll', function() {
   const bg = document.querySelector('.parallax-bg');
   if(bg) {
-    // Parallax aún más lento y fondo siempre cubriendo
-    const factor = 0.04;
-    const offset = window.pageYOffset * factor;
+    // Parallax adaptativo: la imagen nunca se corta y cubre todo el fondo
+    const scrollMax = document.body.scrollHeight - window.innerHeight;
+    const imgMoveMax = 120; // Máximo desplazamiento vertical de la imagen en px
+    const scrollRatio = scrollMax > 0 ? window.pageYOffset / scrollMax : 0;
+    const offset = scrollRatio * imgMoveMax;
     bg.style.backgroundPosition = `center ${offset}px`;
   }
 });
