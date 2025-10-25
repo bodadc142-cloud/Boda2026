@@ -57,51 +57,33 @@ h1{font-family:'Great Vibes',cursive;font-size:3.8rem;margin:6px 0 0 0;line-heig
   padding: 10px 0;
 }
 
-.item {
-  aspect-ratio: 1/1;
-  position: relative;
-  overflow: hidden;
-  border-radius: 16px;
-  background: #eee;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  transition: box-shadow .2s;
-}
-.item:hover {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-}
-.item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform .35s ease;
-}
-.item:hover img {
-  transform: scale(1.07);
-  filter: brightness(0.95);
-}
-/* Overlay estilo Instagram */
-.ig-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: linear-gradient(0deg, rgba(0,0,0,0.45) 70%, transparent 100%);
-  color: #fff;
-  font-size: 1rem;
-  padding: 10px 12px 6px 12px;
-  box-sizing: border-box;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.18);
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
-  pointer-events: none;
-  display: flex;
-  align-items: flex-end;
-  min-height: 32px;
-}
+  .item {
+    aspect-ratio: 1/1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    background: #eee;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    transition: box-shadow .2s;
+  }
+  .item:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  }
+  .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .35s ease;
+  }
+  .item:hover img {
+    transform: scale(1.07);
+    filter: brightness(0.95);
+  }
+  /* .ig-overlay eliminado por limpieza */
 
 @media (max-width: 700px) {
   #gallery {
@@ -130,7 +112,7 @@ h1{font-family:'Great Vibes',cursive;font-size:3.8rem;margin:6px 0 0 0;line-heig
     box-shadow: none;
     border: none;
   }
-  .ig-overlay { display: none; }
+    /* .ig-overlay eliminado por limpieza */
 }
 .item {
   aspect-ratio: 1/1;
@@ -231,18 +213,7 @@ h1{font-family:'Great Vibes',cursive;font-size:3.8rem;margin:6px 0 0 0;line-heig
   </section>
   
 </div>
-.btn, button {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-  transition: box-shadow 0.2s, transform 0.15s, background 0.2s;
-}
-.btn:hover, button:hover {
-  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-  background: var(--accent);
-  transform: translateY(-2px) scale(1.04);
-}
-.btn:active, button:active {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-  background: var(--verde-claro);
+
 
 <!-- LIGHTBOX -->
 <div id="lightbox">
