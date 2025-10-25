@@ -77,7 +77,13 @@ h1{font-family:'Great Vibes',cursive;font-size:3.8rem;margin:6px 0 0 0;line-heig
 #progress{margin-top:8px;font-weight:700;color:var(--verde-osc);}
 
 /* GALERÍA */
-#gallery-container{display:none;padding:28px 0;}
+#gallery-container{
+  display:none;
+  padding:28px 0;
+  background:none !important;
+  box-shadow:none;
+  border:none;
+}
 #gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -226,7 +232,7 @@ h1{font-family:'Great Vibes',cursive;font-size:3.8rem;margin:6px 0 0 0;line-heig
   <section id="cover">
     <img src="PortadaGaleria.jpg" alt="Diego y Cami">
     <h1>Diego & Cami</h1>
-    <div class="sub">Nuestra mejor historia comienza hoy</div>
+  <div class="sub" style="font-weight:bold;">Nuestra mejor historia comienza hoy</div>
     <div id="cover-actions">
       <button id="view-gallery" class="btn">Ver Galería</button>
       <button id="upload-photos" class="btn">Subir Fotos</button>
