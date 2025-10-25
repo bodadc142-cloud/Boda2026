@@ -22,8 +22,8 @@
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  background: url('fondo.jpg') center center / cover no-repeat fixed;
-  will-change: transform;
+  background: url('fondo.jpg') center center / contain no-repeat scroll;
+  will-change: background-position;
   pointer-events: none;
 }
 body {
@@ -270,10 +270,10 @@ h1{font-family:'Great Vibes',cursive;font-size:3.8rem;margin:6px 0 0 0;line-heig
 window.addEventListener('scroll', function() {
   const bg = document.querySelector('.parallax-bg');
   if(bg) {
-    // Parallax más suave y en sentido correcto
-    const factor = 0.3; // velocidad más lenta
-    const offset = -window.pageYOffset * factor;
-    bg.style.transform = `translateY(${offset}px)`;
+    // Parallax mucho más suave usando background-position-y
+    const factor = 0.1;
+    const offset = window.pageYOffset * factor;
+    bg.style.backgroundPosition = `center ${offset}px`;
   }
 });
 
