@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
 <meta charset="utf-8" />
@@ -11,8 +11,9 @@
 :root{
   --verde-osc:#234122;
   --verde-claro:#6b8b6b;
-  --bg:#f6f4ec;
   --beige:#e7dfc7;
+  --accent:#bfb58e;
+  --bg:#f6f4ec;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
@@ -23,7 +24,6 @@ body{
   line-height:1.35;
 }
 
-/* CONTENEDOR */
 .wrap{max-width:1200px;margin:24px auto;padding:0 18px;}
 
 /* PORTADA MINIMALISTA */
@@ -32,34 +32,53 @@ body{
   flex-direction:column;
   align-items:center;
   justify-content:center;
+  gap:16px;
   text-align:center;
-  gap:20px;
-  min-height:80vh;
-  padding:20px;
+  padding:24px;
 }
-
 #cover h1{
   font-family:'Great Vibes', cursive;
-  font-size:4rem;
-  line-height:1;
+  font-size:3rem;
   color:var(--verde-osc);
 }
-
 #cover .sub{
   font-family:'Great Vibes', cursive;
-  font-size:1.5rem;
+  font-size:1.25rem;
   color:var(--verde-claro);
 }
-
 #cover img{
+  max-width:420px;
   width:100%;
-  max-width:500px;
-  height:auto;
   border-radius:8px;
   box-shadow:0 6px 20px rgba(0,0,0,0.1);
 }
 
-/* BOTONES MINIMALISTAS */
+/* BARRA DE PROGRESO */
+#upload-progress-container {
+  width:100%;
+  max-width:420px;
+  height:20px;
+  background:#e0e0e0;
+  border-radius:10px;
+  overflow:hidden;
+  margin:10px auto;
+  box-shadow:0 2px 6px rgba(0,0,0,0.15);
+}
+.progress-bar {
+  height:100%;
+  width:0%;
+  background: linear-gradient(90deg, #6b8b6b, #bfb58e);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:12px;
+  font-weight:600;
+  transition: width 0.3s ease;
+}
+
+/* BOTONES */
 .cover-actions{
   display:flex;
   gap:12px;
@@ -70,65 +89,43 @@ body{
   padding:10px 18px;
   border-radius:30px;
   border:none;
-  font-weight:600;
+  font-weight:700;
   background:var(--beige);
   color:var(--verde-osc);
   cursor:pointer;
-  box-shadow:0 4px 12px rgba(0,0,0,0.05);
-  transition:transform .18s ease;
+  box-shadow:0 4px 12px rgba(34,65,41,0.1);
 }
 .btn.ghost{
   background:transparent;
   border:2px solid var(--beige);
+  color:var(--verde-osc);
 }
-.btn:hover{transform:translateY(-2px)}
+.btn:hover{
+  transform:translateY(-2px);
+  transition:transform .18s ease;
+}
 
 /* GALERÍA */
 #gallery-container{display:none;padding:28px 0}
 #controls{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
-#controls .layout-btn, #controls .back-btn{padding:8px 14px;border-radius:6px;border:none;background:#eee;color:var(--verde-osc);font-weight:600;cursor:pointer;}
-#controls .back-btn{background:transparent;border:1px solid #ccc}
-#controls .layout-btn.active{box-shadow:0 4px 12px rgba(0,0,0,0.08);}
+#controls .layout-btn, #controls .back-btn{padding:8px 14px;border-radius:8px;border:none;background:var(--beige);color:var(--verde-osc);font-weight:700;cursor:pointer;}
+#controls .back-btn{background:transparent;border:2px solid var(--beige)}
+#controls .layout-btn.active{box-shadow:0 6px 18px rgba(34,65,41,0.06);}
 .gallery{width:100%}
-.gallery.masonry{column-count:3;column-gap:12px}
+.gallery.masonry{column-count:3;column-gap:14px}
 @media(max-width:1000px){ .gallery.masonry{column-count:2} }
 @media(max-width:600px){ .gallery.masonry{column-count:1} }
-.gallery.masonry .item{display:inline-block;width:100%;margin:0 0 12px;border-radius:6px;overflow:hidden}
-.item img{width:100%;height:auto;display:block;transition:transform .3s ease}
-.item:hover img{transform:scale(1.02)}
-#lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);z-index:9999;padding:20px}
-#lightbox img{max-width:calc(100% - 60px);max-height:calc(100% - 80px);border-radius:6px}
-#lightbox .close{position:absolute;top:16px;right:16px;background:#fff;color:var(--verde-osc);border:none;padding:6px 10px;border-radius:6px;font-weight:700;cursor:pointer}
+.gallery.masonry .item{display:inline-block;width:100%;margin:0 0 14px;border-radius:10px;overflow:hidden}
+.item{position:relative;cursor:pointer;overflow:hidden;border-radius:8px}
+.item img{width:100%;height:auto;display:block;transition:transform .35s ease,filter .35s ease}
+.item:hover img{transform:scale(1.03)}
+#lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(6,10,6,0.8);z-index:9999;padding:20px}
+#lightbox img{max-width:calc(100% - 80px);max-height:calc(100% - 100px);border-radius:8px}
+#lightbox .close{position:absolute;top:18px;right:18px;background:var(--beige);color:var(--verde-osc);border:none;padding:8px 12px;border-radius:8px;font-weight:800}
 
-/* RESPONSIVE PORTADA MINIMALISTA */
-@media(max-width:768px){
-  #cover {
-    gap:16px;
-  }
-  #cover h1 {
-    font-size:3rem;
-  }
-  #cover .sub {
-    font-size:1.2rem;
-  }
-  #cover img {
-    max-width:100%;
-  }
-  .cover-actions {
-    flex-direction:column;
-    gap:10px;
-  }
-}
 @media(max-width:480px){
-  #cover h1 {
-    font-size:2.4rem;
-  }
-  #cover .sub {
-    font-size:1rem;
-  }
-  #cover img {
-    max-width:100%;
-  }
+  #cover h1{font-size:2.4rem;}
+  #cover img{max-width:300px;}
 }
 </style>
 </head>
@@ -136,16 +133,22 @@ body{
 
 <div class="wrap">
 
-  <!-- PORTADA MINIMALISTA -->
+  <!-- PORTADA -->
   <section id="cover" aria-label="Portada">
     <h1>Diego &amp; Cami</h1>
     <div class="sub">Nuestra mejor historia comienza hoy</div>
     <img id="cover-photo" src="PortadaGaleria.jpg" alt="Diego y Cami">
 
+    <!-- BARRA DE PROGRESO -->
+    <div id="upload-progress-container"></div>
+
     <div class="cover-actions">
       <button id="view-gallery" class="btn">Ver Galería</button>
       <button id="upload-photos" class="btn ghost">Subir Fotos</button>
     </div>
+
+    <!-- INPUT OCULTO PARA SUBIDA -->
+    <input type="file" id="photo-input" multiple style="display:none">
   </section>
 
   <!-- GALERÍA -->
@@ -180,8 +183,11 @@ const lightbox = document.getElementById('lightbox');
 const lbImg = document.getElementById('lb-img');
 const lbClose = document.getElementById('lb-close');
 const uploadBtn = document.getElementById('upload-photos');
+const photoInput = document.getElementById('photo-input');
+const progressContainer = document.getElementById('upload-progress-container');
 
-/* === FUNCIONES LIGHTBOX === */
+/* === LIGHTBOX === */
+let images = [];
 let currentIdx = 0;
 function openLightbox(i){
   currentIdx = i;
@@ -190,9 +196,9 @@ function openLightbox(i){
   lightbox.setAttribute('aria-hidden','false');
 }
 function closeLightbox(){
-  lightbox.style.display = 'none';
+  lightbox.style.display='none';
   lightbox.setAttribute('aria-hidden','true');
-  lbImg.src = '';
+  lbImg.src='';
 }
 lbClose.addEventListener('click', closeLightbox);
 lightbox.addEventListener('click', (e)=>{if(e.target===lightbox) closeLightbox();});
@@ -203,7 +209,7 @@ document.addEventListener('keydown', (e)=>{
   if(e.key==='ArrowLeft'){currentIdx=(currentIdx-1+images.length)%images.length; lbImg.src=images[currentIdx].url;}
 });
 
-/* === Mostrar portada/galería === */
+/* === MOSTRAR PORTADA / GALERÍA === */
 viewBtn.addEventListener('click', ()=>{
   cover.style.display='none';
   galleryContainer.style.display='block';
@@ -216,19 +222,17 @@ backBtn.addEventListener('click', ()=>{
   window.scrollTo({top:0,behavior:'smooth'});
 });
 
-/* === Layouts === */
+/* === LAYOUT BOTONES === */
 layoutBtns.forEach(btn=>{
   btn.addEventListener('click', ()=>{
     layoutBtns.forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    const mode = btn.dataset.layout;
-    gallery.className='gallery '+mode;
+    gallery.className='gallery '+btn.dataset.layout;
   });
 });
 document.querySelector('.layout-btn[data-layout="masonry"]').classList.add('active');
 
-/* === FETCH GALERÍA DESDE RENDER === */
-let images = [];
+/* === CARGAR GALERÍA DESDE BACKEND === */
 async function loadGallery(){
   try{
     const res = await fetch('https://boda2026.onrender.com/gallery');
@@ -244,14 +248,7 @@ async function loadGallery(){
   }catch(err){console.error(err);}
 }
 
-/* === SUBIR FOTOS DIRECTO DESDE DISPOSITIVO === */
-const photoInput = document.createElement('input');
-photoInput.type = 'file';
-photoInput.accept = 'image/*';
-photoInput.multiple = true;
-photoInput.style.display = 'none';
-document.body.appendChild(photoInput);
-
+/* === SUBIR FOTOS === */
 uploadBtn.addEventListener('click', ()=>photoInput.click());
 
 photoInput.addEventListener('change', async (e)=>{
@@ -259,24 +256,58 @@ photoInput.addEventListener('change', async (e)=>{
   if(!files.length) return;
 
   for(let file of files){
+    // Crear barra de progreso
+    const progressBar = document.createElement('div');
+    progressBar.className='progress-bar';
+    progressBar.textContent = `Subiendo ${file.name}...`;
+    progressBar.style.width='0%';
+    progressContainer.appendChild(progressBar);
+
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', "unsigned_preset");
     formData.append('folder','boda2026');
 
     try{
-      const res = await fetch("https://api.cloudinary.com/v1_1/de3zy3vvo/image/upload",{method:'POST',body:formData});
-      const data = await res.json();
-      console.log('Foto subida:', data.secure_url);
-    }catch(err){console.error('Error al subir', err);}
+      await new Promise((resolve,reject)=>{
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST',"https://api.cloudinary.com/v1_1/de3zy3vvo/image/upload");
+        xhr.upload.onprogress = (event)=>{
+          if(event.lengthComputable){
+            const percent = Math.round((event.loaded/event.total)*100);
+            progressBar.style.width = percent+'%';
+            progressBar.textContent = `Subiendo ${file.name}... ${percent}%`;
+          }
+        };
+        xhr.onload = async ()=>{
+          if(xhr.status===200){
+            const data = JSON.parse(xhr.responseText);
+            // Notificar backend
+            await fetch('https://boda2026.onrender.com/add-photo',{
+              method:'POST',
+              headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({url:data.secure_url,uploader:"Invitado"})
+            });
+            alert(`Foto "${file.name}" subida correctamente!`);
+            resolve();
+          }else reject(xhr.statusText);
+        };
+        xhr.onerror = ()=>reject('Error de red');
+        xhr.send(formData);
+      });
+    }catch(err){
+      console.error('Error al subir', err);
+      alert(`Error al subir "${file.name}"`);
+    } finally {
+      progressBar.style.transition = 'opacity 0.5s ease';
+      progressBar.style.opacity='0';
+      setTimeout(()=>progressBar.remove(),500);
+    }
   }
 
   await loadGallery();
-  e.target.value = '';
+  e.target.value='';
 });
-
-// Inicializar galería
-loadGallery();
 </script>
 
 </body>
