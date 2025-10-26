@@ -23,7 +23,10 @@ app.get("/gallery", async (req, res) => {
       context: true // importante para obtener el uploader
     });
 
-    const images = resources.resources.map(r => ({
+    // Ordenar por fecha de subida descendente (las más nuevas primero)
+    const sorted = resources.resources.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    const images = sorted.map(r => ({
       url: r.secure_url,
       type: r.resource_type,
       uploader: r.context && r.context.custom && r.context.custom.nombre ? r.context.custom.nombre : "Anónimo"
