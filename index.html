@@ -295,11 +295,11 @@ const nameInput = document.getElementById('uploader-name');
 const nameSubmit = document.getElementById('name-submit');
 const thanksModal = document.getElementById('thanks-modal');
 
-let images = [];
+// ...existing code...
 let currentIdx = 0;
-let page = 0;
+let nextCursor = null;
 const PAGE_SIZE = 30;
-let allImages = [];
+// ...existing code...
 
 /* LIGHTBOX */
 function openLightbox(i){
@@ -338,26 +338,33 @@ document.getElementById('back-to-cover').addEventListener('click', ()=>{
 /* CARGAR GALERÍA */
 async function loadGallery(){
   try{
-    const res = await fetch('https://boda2026.onrender.com/gallery');
-    allImages = await res.json();
-    page = 0;
-    renderGalleryPage();
+    images = [];
+    nextCursor = null;
+    gallery.innerHTML = '';
+    await loadNextGalleryPage();
   }catch(err){console.error(err);}
 }
 
-function renderGalleryPage() {
-  images = allImages.slice(0, (page + 1) * PAGE_SIZE);
-  gallery.innerHTML = '';
-  images.forEach((img, i) => {
-    const div = document.createElement('div');
-    div.className = 'item';
-    // Usar transformación de Cloudinary para miniatura (ancho 400px, calidad auto)
-    let thumbUrl = img.url.replace('/upload/', '/upload/w_400,q_auto/');
-    div.innerHTML = `<img src="${thumbUrl}" alt="Foto" data-index="${i}">`;
-    div.addEventListener('click', () => openLightbox(i));
-    gallery.appendChild(div);
-  });
-  if (images.length < allImages.length) {
+async function loadNextGalleryPage() {
+  try {
+    let url = `https://boda2026.onrender.com/gallery?limit=${PAGE_SIZE}`;
+    if (nextCursor) url += `&next_cursor=${encodeURIComponent(nextCursor)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const newImages = data.images || [];
+    nextCursor = data.next_cursor;
+    const startIdx = images.length;
+    images = images.concat(newImages);
+    newImages.forEach((img, i) => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      // Usar transformación de Cloudinary para miniatura (ancho 400px, calidad auto)
+      let thumbUrl = img.url.replace('/upload/', '/upload/w_400,q_auto/');
+      div.innerHTML = `<img src="${thumbUrl}" alt="Foto" data-index="${startIdx + i}">`;
+      div.addEventListener('click', () => openLightbox(startIdx + i));
+      gallery.appendChild(div);
+    });
+    // Botón cargar más
     let moreBtn = document.getElementById('load-more-btn');
     if (!moreBtn) {
       moreBtn = document.createElement('button');
@@ -365,18 +372,17 @@ function renderGalleryPage() {
       moreBtn.textContent = 'Cargar más fotos';
       moreBtn.className = 'btn';
       moreBtn.style.margin = '18px auto';
-      moreBtn.onclick = () => {
-        page++;
-        renderGalleryPage();
-      };
+      moreBtn.onclick = () => loadNextGalleryPage();
       gallery.parentNode.appendChild(moreBtn);
     }
-    moreBtn.style.display = 'block';
-  } else {
-    const moreBtn = document.getElementById('load-more-btn');
-    if (moreBtn) moreBtn.style.display = 'none';
+    moreBtn.style.display = nextCursor ? 'block' : 'none';
+  } catch (err) {
+    console.error(err);
   }
 }
+
+function renderGalleryPage() {
+// renderGalleryPage ya no es necesario con paginación real
 
 /* SUBIR FOTOS */
 uploadBtn.addEventListener('click', ()=>{

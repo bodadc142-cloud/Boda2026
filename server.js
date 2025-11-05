@@ -14,25 +14,31 @@ cloudinary.config({
 });
 
 // Endpoint para listar imágenes del folder "boda2026"
+// Endpoint paginado para listar imágenes del folder "boda2026"
 app.get("/gallery", async (req, res) => {
   try {
+    const limit = parseInt(req.query.limit) || 30;
+    const next_cursor = req.query.next_cursor || undefined;
     const resources = await cloudinary.api.resources({
       type: "upload",
       prefix: "boda2026/", // coincide con el folder en la subida
-      max_results: 500,
-      context: true // importante para obtener el uploader
+      max_results: limit,
+      context: true, // importante para obtener el uploader
+      direction: -1, // descendente (más nuevas primero)
+      next_cursor
     });
 
-    // Ordenar por fecha de subida descendente (las más nuevas primero)
-    const sorted = resources.resources.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-    const images = sorted.map(r => ({
+    const images = resources.resources.map(r => ({
       url: r.secure_url,
       type: r.resource_type,
-      uploader: r.context && r.context.custom && r.context.custom.nombre ? r.context.custom.nombre : "Anónimo"
+      uploader: r.context && r.context.custom && r.context.custom.nombre ? r.context.custom.nombre : "Anónimo",
+      created_at: r.created_at
     }));
 
-    res.json(images);
+    res.json({
+      images,
+      next_cursor: resources.next_cursor || null
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "No se pudieron obtener las imágenes" });
