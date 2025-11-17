@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Diego & Cami — 14/02/2026</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --verde-osc: #234122;
+  --verde-claro: #6b8b6b;
+  --beige: #e7dfc7;
+  --accent: #bfb58e;
+  --bg: #f6f4ec;
+}
+.parallax-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: url('fondo.jpg') center center / cover no-repeat scroll;
+  will-change: background-position;
+  pointer-events: none;
+}
+body {
+  min-height: 100vh;
+  background: transparent;
+  position: relative;
+  overflow-x: hidden;
+}
+.animated-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  background: url('fondo.jpg') center center / cover no-repeat fixed;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Montserrat',system-ui,sans-serif;background:transparent;color:var(--verde-osc);line-height:1.35;}
+.wrap{
+  max-width:1200px;
+  margin:24px auto;
+  padding:0 18px;
+  background:none !important;
+  box-shadow:none;
+  border:none;
+}
+#cover, #gallery-container, section {
+  background: transparent;
+}
+
+/* PORTADA */
+#cover{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;}
+#cover img{max-width:400px;width:100%;border-radius:6px;}
+h1{font-family:'Great Vibes',cursive;font-size:3.8rem;margin:6px 0 0 0;line-height:0.95;}
+.sub{font-family:'Great Vibes',cursive;font-size:1.25rem;color:var(--verde-claro);margin-bottom:12px;}
+#cover-actions{display:flex;gap:12px;margin-top:12px;}
+.btn{
+  padding:10px 18px;
+  border-radius:30px;
+  border:none;
+  font-weight:700;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--beige) 100%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  cursor:pointer;
+  color:var(--verde-osc);
+  transition: box-shadow .2s, transform .2s;
+}
+.btn:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  transform: translateY(-2px) scale(1.04);
+}
+#progress{margin-top:8px;font-weight:700;color:var(--verde-osc);}
+
+/* GALERÍA */
+#gallery-container{
+  display:none;
+  padding:28px 0;
+  background:none !important;
+  box-shadow:none;
+  border:none;
+}
+#gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 10px 0;
+}
+
+  .item {
+    aspect-ratio: 1/1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    transition: box-shadow .2s;
+  }
+  .item:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  }
+  .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .35s ease;
+  }
+  .item:hover img {
+    transform: scale(1.07);
+    filter: brightness(0.95);
+  }
+  /* .ig-overlay eliminado por limpieza */
+
+@media (max-width: 700px) {
+  #gallery {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+  }
+  .item {
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  background: transparent;
+    aspect-ratio: 1/1;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 0;
+    box-shadow: none;
+    border: none;
+  }
+    /* .ig-overlay eliminado por limpieza */
+}
+.item {
+  aspect-ratio: 1/1;
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  transition: box-shadow .2s;
+}
+.item:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+}
+.item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .35s ease;
+}
+.item:hover img {
+  transform: scale(1.07);
+  filter: brightness(0.95);
+}
+
+/* Overlay estilo Instagram */
+.ig-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(0deg, rgba(0,0,0,0.45) 70%, transparent 100%);
+  color: #fff;
+  font-size: 1rem;
+  padding: 10px 12px 6px 12px;
+  box-sizing: border-box;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  min-height: 32px;
+}
+#back-to-cover{margin-bottom:18px;padding:8px 14px;border-radius:8px;border:none;background:var(--beige);color:var(--verde-osc);font-weight:700;cursor:pointer;}
+
+/* LIGHTBOX */
+#lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(6,10,6,0.8);z-index:9999;padding:20px;}
+#lightbox img{max-width:calc(100% - 80px);max-height:calc(100% - 100px);border-radius:8px;}
+#lightbox .close{position:absolute;top:18px;right:18px;background:var(--beige);color:var(--verde-osc);border:none;padding:8px 12px;border-radius:8px;font-weight:800;}
+
+/* INPUT NOMBRE */
+#name-modal{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:none;align-items:center;justify-content:center;z-index:9999;}
+#name-modal .modal-content{background:#fff;padding:24px;border-radius:10px;text-align:center;max-width:320px;width:90%;}
+#name-modal input{padding:8px 12px;width:100%;margin-bottom:12px;border-radius:6px;border:1px solid #ccc;font-size:1rem;}
+#name-modal button{padding:8px 16px;border:none;border-radius:6px;background:var(--beige);color:var(--verde-osc);font-weight:700;cursor:pointer;}
+
+/* MODAL AGRADECIMIENTO */
+#thanks-modal{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:none;align-items:center;justify-content:center;z-index:9999;}
+#thanks-modal .modal-content{background:#fff;padding:32px 24px;border-radius:12px;text-align:center;max-width:340px;width:90%;box-shadow:0 4px 24px rgba(0,0,0,0.12);}
+#thanks-modal .thanks-title{font-family:'Great Vibes',cursive;font-size:2.2rem;color:var(--verde-claro);margin-bottom:10px;}
+#thanks-modal .thanks-msg{font-size:1.15rem;color:var(--verde-osc);margin-bottom:18px;}
+#thanks-modal .close-btn{padding:8px 18px;border:none;border-radius:8px;background:var(--beige);color:var(--verde-osc);font-weight:700;cursor:pointer;}
+</style>
+</head>
+<body>
+
+<div class="parallax-bg"></div>
+<div class="wrap">
+  <!-- MODAL AGRADECIMIENTO -->
+  <div id="thanks-modal">
+    <div class="modal-content">
+      <div class="thanks-title">¡Gracias por compartir!</div>
+      <div class="thanks-msg">Tus fotos han sido subidas con éxito.<br>¡Gracias por ser parte de este recuerdo!</div>
+      <button class="close-btn" onclick="document.getElementById('thanks-modal').style.display='none'">Cerrar</button>
+    </div>
+  </div>
+  
+  <!-- PORTADA -->
+  <section id="cover">
+    <img src="PortadaGaleria.jpg" alt="Diego y Cami">
+    <h1>Diego & Cami</h1>
+  <div class="sub" style="font-weight:lighter; font-size:1.5rem; background:rgba(255,255,255,0.7); padding:8px 22px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.18); text-shadow:0 2px 8px rgba(0,0,0,0.22); color:#234122;">Nuestra noche perfecta, capturada por ustedes</div>
+    <div id="cover-actions">
+      <button id="view-gallery" class="btn">Ver Galería</button>
+      <button id="upload-photos" class="btn">Subir Fotos</button>
+    </div>
+    <div id="progress"></div>
+  </section>
+  
+  <!-- GALERÍA -->
+  <section id="gallery-container">
+  <button id="back-to-cover">← Atrás</button>
+  <div id="gallery"></div>
+  </section>
+  
+</div>
+
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button class="close" id="lb-close">Cerrar ✕</button>
+  <img id="lb-img" src="" alt="Foto grande">
+  <div id="lb-uploader" style="margin-top:16px;color:#fff;font-size:1.1rem;text-align:center;"></div>
+</div>
+
+<!-- MODAL NOMBRE -->
+<div id="name-modal">
+  <div class="modal-content">
+    <div>Ingresa tu nombre</div>
+    <input type="text" id="uploader-name" placeholder="Tu nombre">
+    <button id="name-submit">Aceptar</button>
+  </div>
+</div>
+
+<script>
+// Parallax scroll efecto ajustado al tamaño de la galería
+window.addEventListener('scroll', function() {
+  const bg = document.querySelector('.parallax-bg');
+  if(bg) {
+    // Parallax: fondo se mueve hacia arriba, imagen siempre completa
+    const scrollMax = document.body.scrollHeight - window.innerHeight;
+    const imgMoveMax = 80; // Menor desplazamiento para evitar corte
+    const scrollRatio = scrollMax > 0 ? window.pageYOffset / scrollMax : 0;
+    const offset = -scrollRatio * imgMoveMax;
+    bg.style.backgroundPosition = `center calc(0% + ${offset}px)`;
+  }
+});
+
+const gallery = document.getElementById('gallery');
+const galleryContainer = document.getElementById('gallery-container');
+const cover = document.getElementById('cover');
+const viewBtn = document.getElementById('view-gallery');
+const uploadBtn = document.getElementById('upload-photos');
+const progress = document.getElementById('progress');
+
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lb-img');
+const lbClose = document.getElementById('lb-close');
+
+const nameModal = document.getElementById('name-modal');
+const nameInput = document.getElementById('uploader-name');
+const nameSubmit = document.getElementById('name-submit');
+const thanksModal = document.getElementById('thanks-modal');
+
+// ...existing code...
+let currentIdx = 0;
+let nextCursor = null;
+const PAGE_SIZE = 30;
+// ...existing code...
+
+/* LIGHTBOX */
+function openLightbox(i){
+  currentIdx = i;
+  lbImg.src = images[i].url;
+  document.getElementById('lb-uploader').textContent = images[i].uploader ? `Compartida por ${images[i].uploader}` : '';
+  lightbox.style.display = 'flex';
+}
+function closeLightbox(){
+  lightbox.style.display='none';
+  lbImg.src='';
+  document.getElementById('lb-uploader').textContent = '';
+}
+lbClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click',(e)=>{if(e.target===lightbox) closeLightbox();});
+document.addEventListener('keydown',(e)=>{
+  if(lightbox.style.display!=='flex') return;
+  if(e.key==='Escape') closeLightbox();
+  if(e.key==='ArrowRight'){currentIdx=(currentIdx+1)%images.length; lbImg.src=images[currentIdx].url;}
+  if(e.key==='ArrowLeft'){currentIdx=(currentIdx-1+images.length)%images.length; lbImg.src=images[currentIdx].url;}
+});
+
+/* MOSTRAR GALERÍA */
+viewBtn.addEventListener('click', ()=>{
+  cover.style.display='none';
+  galleryContainer.style.display='block';
+  loadGallery();
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+document.getElementById('back-to-cover').addEventListener('click', ()=>{
+  galleryContainer.style.display='none';
+  cover.style.display='flex';
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+/* CARGAR GALERÍA */
+async function loadGallery(){
+  try{
+    images = [];
+    nextCursor = null;
+    gallery.innerHTML = '';
+    await loadNextGalleryPage();
+  }catch(err){console.error(err);}
+}
+
+async function loadNextGalleryPage() {
+  try {
+    let url = `https://boda2026.onrender.com/gallery?limit=${PAGE_SIZE}`;
+    if (nextCursor) url += `&next_cursor=${encodeURIComponent(nextCursor)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    const newImages = data.images || [];
+    nextCursor = data.next_cursor;
+    const startIdx = images.length;
+    images = images.concat(newImages);
+    newImages.forEach((img, i) => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      // Usar transformación de Cloudinary para miniatura (ancho 400px, calidad auto)
+      let thumbUrl = img.url.replace('/upload/', '/upload/w_400,q_auto/');
+      div.innerHTML = `<img src="${thumbUrl}" alt="Foto" data-index="${startIdx + i}">`;
+      div.addEventListener('click', () => openLightbox(startIdx + i));
+      gallery.appendChild(div);
+    });
+    // Botón cargar más
+    let moreBtn = document.getElementById('load-more-btn');
+    if (!moreBtn) {
+      moreBtn = document.createElement('button');
+      moreBtn.id = 'load-more-btn';
+      moreBtn.textContent = 'Cargar más fotos';
+      moreBtn.className = 'btn';
+      moreBtn.style.margin = '18px auto';
+      moreBtn.onclick = () => loadNextGalleryPage();
+      gallery.parentNode.appendChild(moreBtn);
+    }
+    moreBtn.style.display = nextCursor ? 'block' : 'none';
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+
+/* SUBIR FOTOS */
+uploadBtn.addEventListener('click', ()=>{
+  nameModal.style.display='flex';
+  nameInput.value='';
+  nameInput.focus();
+});
+
+nameSubmit.addEventListener('click', async ()=>{
+  const uploader = nameInput.value.trim();
+  const errorMsgId = 'name-error-msg';
+  let errorMsg = document.getElementById(errorMsgId);
+  if(!uploader){
+    if(!errorMsg){
+      errorMsg = document.createElement('div');
+      errorMsg.id = errorMsgId;
+      errorMsg.style.color = 'red';
+      errorMsg.style.marginBottom = '8px';
+      errorMsg.textContent = "Debes ingresar tu nombre";
+      nameInput.parentNode.insertBefore(errorMsg, nameInput.nextSibling);
+    }
+    nameInput.focus();
+    return;
+  } else if(errorMsg){
+    errorMsg.remove();
+  }
+  nameModal.style.display='none';
+
+  const files = await new Promise(resolve=>{
+    const input = document.createElement('input');
+    input.type='file';
+    input.multiple=true;
+    input.accept='image/*';
+    input.onchange = ()=>resolve(Array.from(input.files));
+    input.click();
+  });
+
+  if(!files || files.length===0) return;
+
+  progress.style.color='black';
+  progress.textContent = `Cargando ${files.length} fotos...`;
+
+  // Subida en paralelo
+  const uploadPromises = files.map((file, i) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset','unsigned_preset');
+    formData.append('folder','boda2026');
+    formData.append('context', `nombre=${uploader}`);
+    return fetch(`https://api.cloudinary.com/v1_1/de3zy3vvo/upload`,{
+      method:'POST',
+      body: formData
+    }).catch(err => {
+      console.error(err);
+      return null;
+    });
+  });
+
+  await Promise.all(uploadPromises);
+
+  progress.style.color='green';
+  progress.textContent='Carga completada';
+  setTimeout(()=>{
+    thanksModal.style.display='flex';
+  }, 100);
+  loadGallery();
+});
+</script>
+
+</body>
+</html>
